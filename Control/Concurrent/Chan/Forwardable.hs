@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes, ScopedTypeVariables #-}
 module Control.Concurrent.Chan.Forwardable ( Chan()
                                            , newChan
                                            , writeChan
@@ -23,7 +24,7 @@ newChan = do
 
 writeChan (Chan (mi,_)) v = do
   ci <- readIORef mi
-  U.writeChan ci (return v)
+  U.writeChan ci $ return v
 
 readChan (Chan (mi,to)) = join $ readIORef to >>= U.readChan
 
@@ -45,7 +46,7 @@ forwardChan c@(Chan (mi,to)) (Chan (mi',to')) = do
           _ -> non
 
       getOldOrNew :: IO a
-      getOldOrNew = readIfAvailable return (readChan c)
+      getOldOrNew = readIfAvailable return $ readChan c
 
       useAll :: IO ()
       useAll = readIfAvailable (\v -> writeChan c v >> useAll) $ return ()
@@ -53,6 +54,6 @@ forwardChan c@(Chan (mi,to)) (Chan (mi',to')) = do
   useAll
   U.writeChan ci' $ getOldOrNew -- executes if we're stuck on a read.
     
-
+void :: Monad m => m a -> m ()
 void = (>> return ())
 
