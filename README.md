@@ -12,7 +12,7 @@ Forward Specification
 
 * _Commutivity_: `forwardChan a b === forwardChan b a`
 
-* _Behavioral Transitivity/: `(forwardChan a b >> forwardChan b c) === (forwardChan a b >> forwardChan a c)`
+* _Behavioral Transitivity_: `(forwardChan a b >> forwardChan b c) === (forwardChan a b >> forwardChan a c)`
 
 * _Equal Opportunity_: For each of the following senarios (with `c1` and `c2` just created with `newChan`), there are
 possible executions which will print out "1" and possible executions which it will print "2", but it will never print both, and provided
