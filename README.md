@@ -3,7 +3,7 @@ forward-chan
 
 * An more complete implementation of the forward primitive from the identity rule for the [proof terms for the sequent caluclus formulation of linear logic](http://www.cs.cmu.edu/~fp/papers/tldi12.pdf)
 
-* The assurances of linear logic make the primitive stated in the paper above easy to implement - namely each channel can only be used once for input and once for output. Thus an implementation made entirely for linear logic need only read from one channel once and write the value to the forwarded channel.  In a non linear context however, this is a woefully insufficient primitive.  Ideally you'd want this to enable permanent bidirectional forwarding, and not one time directional forwarding.  The remaining question is then how to build it and what specification it needs.   This package solves that problem.
+* The assurances of linear logic make the primitive stated in the paper above easy to implement - namely each channel can only be used once for input and once for output. Thus an implementation made entirely for linear logic need only read from one channel once and write the value to the forwarded channel.  In a non linear context however, this is a woefully insufficient primitive.  Ideally you'd want this to enable permanent (and retroactive) bidirectional forwarding, and not one time directional forwarding.  The remaining question is then how to build it and what specification it needs.   This package solves that problem.
 
 * [on hackage](http://hackage.haskell.org/package/forward-chan)
 
