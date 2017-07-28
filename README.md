@@ -17,7 +17,6 @@ Forward Specification
 * _Equal Opportunity_: For each of the following senarios (with `c1` and `c2` just created with `newChan`), there are
 possible executions which will print out "1" and possible executions which it will print "2", but it will never print both, and provided
 one of the threads aren't starved by other thread, it will always print one of them.
-it deadlock on both.
 
 ```haskell
 writeChan () c1
