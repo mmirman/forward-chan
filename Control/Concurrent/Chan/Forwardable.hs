@@ -59,87 +59,11 @@ It obeys a few properties:
 
 * /Behavioral Transitivity/: @('forwardChan' a b >> 'forwardChan' b c) === ('forwardChan' a b >> 'forwardChan' a c)@
 
-* /Equal Opportunity/: For each of the following senarios (with @c1@ and @c2@ just created with 'newChan'), there are
-possible executions which will print out "1" and possible executions which it will print "2", but it will never print both, and provided
-one of the threads aren't starved by other thread, it will always print one of them.
-it deadlock on both.
-
-@
-'writeChan' () c1
-'forwardChan' c1 c2
-'forkIO' $ do
-   'readChan' c1
-   putStrLn "1"
-'readChan' c2
-putStrLn "2"
-@
-
-@
-'forwardChan' c1 c2
-'writeChan' () c1
-'forkIO' $ do
-   'readChan' c1
-   putStrLn "1"
-'readChan' c2
-putStrLn "2"
-@
-
-@
-'forkIO' $ do
-   'readChan' c1
-   putStrLn "1"
-'forkIO' $ do
-    'readChan' c2
-    putStrLn "2"
-'forwardChan' c1 c2
-'writeChan' () c1
-@
-
-@
-'forkIO' $ do
-   'readChan' c1
-   putStrLn "1"
-'forkIO' $ do
-    'readChan' c2
-    putStrLn "2"
-'writeChan' () c1
-'forwardChan' c1 c2
-@
+* /Equal Opportunity/: A write to either channel before or after the forward will be able to be consumed by a read on either of the channels, and
+there will be no unexpected starvation or race conditions.
 
 * /Early Bird Gets The Worm/: The first thread to read from either channel will, after a 'forward', always recieve
-the next available item.  Similarly, items written to either channel are read in the same order they were written in.  The following examples will always print out "12"
-
-@
-'writeChan' "1" c1
-'writeChan' "2" c2
-'forwardChan' c1 c2
-'readChan' c1 >>= putStr
-'readChan' c2 >>= putStr
-@
-
-@
-'writeChan' "1" c1
-'writeChan' "2" c2
-'forwardChan' c1 c2
-'readChan' c1 >>= putStr
-'readChan' c1 >>= putStr
-@
-
-@
-'forwardChan' c1 c2
-'writeChan' "1" c1
-'writeChan' "2" c2
-'readChan' c1 >>= putStr
-'readChan' c2 >>= putStr
-@
-
-@
-'forwardChan' c1 c2
-'writeChan' "1" c1
-'writeChan' "2" c2
-'readChan' c2 >>= putStr
-'readChan' c2 >>= putStr
-@
+the next available item.  Similarly, items written to either channel are read in the same order they were written in.
 
 * /Note/: if @a '==' b@ is @False@, then after @'forwardChan' a b@ will not cause @a '==' b@ to become @True@.
 

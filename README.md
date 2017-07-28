@@ -6,7 +6,11 @@ forward-chan
 Forward Specification
 =====================
 
-* /Equal Opportunity/: For each of the following senarios (with @c1@ and @c2@ just created with 'newChan'), there are
+* _Commutivity_: `forwardChan a b === forwardChan b a`
+
+* _Behavioral Transitivity/: `(forwardChan a b >> forwardChan b c) === (forwardChan a b >> forwardChan a c)`
+
+* _Equal Opportunity_: For each of the following senarios (with `c1` and `c2` just created with `newChan`), there are
 possible executions which will print out "1" and possible executions which it will print "2", but it will never print both, and provided
 one of the threads aren't starved by other thread, it will always print one of them.
 it deadlock on both.
@@ -53,7 +57,7 @@ writeChan () c1
 forwardChan c1 c2
 ```
 
-* /Early Bird Gets The Worm/: The first thread to read from either channel will, after a 'forward', always recieve
+* _Early Bird Gets The Worm_: The first thread to read from either channel will, after a `forward`, always recieve
 the next available item.  Similarly, items written to either channel are read in the same order they were written in.  The following examples will always print out "12"
 
 ```haskell
@@ -87,7 +91,3 @@ writeChan "2" c2
 readChan c2 >>= putStr
 readChan c2 >>= putStr
 ```
-
-
-
-
